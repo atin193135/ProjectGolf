@@ -1,0 +1,106 @@
+body {
+	font: Verdana, Arial, Helvetica, sans-serif;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	/*text-align: center;*/ /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+	/*background-image: url(image/bg2.jpg);
+	background-repeat: repeat;*/
+	font-size: 14px;
+	line-height: 18px;
+	/*background-color: #596929;*/
+
+}
+.oneColLiqCtrHdr #container {
+	width: 70%;  /* this will create a container 80% of the browser width */
+	background: #FFFFFF;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	text-align: left; /* this overrides the text-align: center on the body element. */
+	border: 3px solid #888;
+	background: #555 url(image/bg.png) repeat;
+
+}
+.oneColLiqCtrHdr #header {
+	height: 50px;
+	margin: 0 auto;
+	background: #666;
+	/*margin-top: -6px;*/
+}
+/*.oneColLiqCtrHdr #header h1 {
+	margin: 0; /* zeroing the margin of the last element in the #header div will avoid margin collapse - an unexplainable space between divs. If the div has a border around it, this is not necessary as that also avoids the margin collapse */
+/*	padding: 10px 0; /* using padding instead of margin will allow you to keep the element away from the edges of the div */
+/*}*/
+
+h1,h2,h3,h4,h5,h6 {
+/*font-weight: bold;*/
+clear: both;
+color: #555;
+text-decoration: none;
+}
+
+.oneColLiqCtrHdr #mainContent {
+	padding: 0 20px; /* remember that padding is the space inside the div box and margin is the space outside the div box */
+	background: #FFFFFF;
+}
+.oneColLiqCtrHdr #footer { 
+	padding: 0 10px; /* this padding matches the left alignment of the elements in the divs that appear above it. */
+	background:#DDDDDD;
+} 
+.oneColLiqCtrHdr #footer p {
+	margin: 0; /* zeroing the margins of the first element in the footer will avoid the possibility of margin collapse - a space between divs */
+	padding: 10px 0; /* padding on this element will create space, just as the the margin would have, without the margin collapse issue */
+}
+
+textarea {
+	border: 1px solid #778899;
+}
+
+input.button {
+	border: 1px solid #6699CC;
+	cursor: hand;
+}
+
+/*
+.theader
+{
+    FONT-SIZE: 11pt;
+    VERTICAL-ALIGN: top;
+    COLOR: #ffffff;
+    TEXT-INDENT: 1pt;
+	font: Verdana, Arial, Helvetica, sans-serif;
+    BACKGROUND-COLOR: #5599dd
+}
+*/
+.listbox
+{
+    OVERFLOW-Y: scroll;
+    WIDTH: 100%;
+    HEIGHT: 130px
+}
+.liston
+{
+    FONT-SIZE: 10pt;
+    VERTICAL-ALIGN: top;
+    /*CURSOR: hand;*/
+    COLOR: #003399;
+	/*font: Verdana, Arial, Helvetica, sans-serif;*/
+    BACKGROUND-COLOR: #fcedf5
+}
+.listoff
+{
+    FONT-SIZE: 10pt;
+    VERTICAL-ALIGN: top;
+    COLOR: black;
+	/*font: Verdana, Arial, Helvetica, sans-serif;
+    BACKGROUND-COLOR: white*/
+}
+
+
+.theader 
+{
+	font-size:14px;
+	text-indent: 1pt;
+	vertical-align: top;
+	color: white;
+	background-color: #9C3;
+}
