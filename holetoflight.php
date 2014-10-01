@@ -160,7 +160,7 @@
 					 
 					} else {
 						
-						
+						//luv u atin
 						
 						$rs1 = mydb ("INSERT INTO FlightD1 (H_ID, F_ID) values ('".$data[0]."','".$fid_d["F_ID"]."')");
 						$count++;
