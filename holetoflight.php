@@ -142,14 +142,13 @@ function Simpan()
     if ($StaSave == "save") {
         if ($day == "D1") {
 
-
             $count_from = 0;
             $count_to = 2;
-            while ($hid_d) {
+            foreach($hid_d as $row1) {
                 $count = 0;
-                while ($fid_d) {
+                foreach($fid_d as $row2) {
                     if ($count < $count_to && $count >= $count_from) {
-                        mydb("INSERT INTO FlightD1 (H_ID, F_ID) values ('" . $hid_d["H_ID"] . "','" . $fid_d["F_ID"] . "')");
+                        mydb("INSERT INTO FlightD1 (H_ID, F_ID) values ('" . $row1["H_ID"] . "','" . $row2["F_ID"] . "')");
                         $count_from++;
                     }
                     $count++;
@@ -159,8 +158,6 @@ function Simpan()
             //$rs1 = mydb ("INSERT INTO FlightD1 (H_ID, F_ID) values (".$hole.",".$f.")");
 
             $msginfo = "Proses Penentuan Flight Pemain telah dilaksanakan dan rekod telah disimpan ke dalam pangkalan data";
-
-
         }
 
         if ($day == "D2") {
