@@ -141,6 +141,8 @@ function Simpan()
 //			$hole=$objResult["H_ID"];
     //	}
 
+    print_r($hidd);
+
     if ($StaSave == "save") {
         if ($day == "D1") {
 
