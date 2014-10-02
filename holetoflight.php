@@ -126,6 +126,7 @@ function Simpan()
     $hole = null;
 
     $rs1 = mydb("SELECT F_ID FROM Day_1 WHERE Kat_ID='" . $kat_id . "'");
+    odbc_fetch_into($rs1, $fidd);
     //$fid_d = odbc_fetch_array($rs);
 //		if($objResult)
     //	{
@@ -133,6 +134,7 @@ function Simpan()
     //}
 
     $rs2 = mydb("SELECT H_ID FROM Hole WHERE Kat_ID='" . $kat_id . "'");
+    odbc_fetch_into($rs2, $hidd);
     //$hid_d = odbc_fetch_array($rs);
     //	if($objResult)
     //	{
@@ -144,9 +146,9 @@ function Simpan()
 
             $count_from = 0;
             $count_to = 2;
-            foreach(odbc_fetch_array($rs2) as $row1) {
+            foreach($hidd as $row1) {
                 $count = 0;
-                foreach(odbc_fetch_array($rs1) as $row2) {
+                foreach($fidd as $row2) {
                     if ($count < $count_to && $count >= $count_from) {
                         mydb("INSERT INTO FlightD1 (H_ID, F_ID) values ('" . $row1["H_ID"] . "','" . $row2["F_ID"] . "')");
                         $count_from++;
