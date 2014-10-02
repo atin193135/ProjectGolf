@@ -150,6 +150,9 @@ function Simpan()
                     if ($count < $count_to && $count >= $count_from) {
                         mydb("INSERT INTO FlightD1 (H_ID, F_ID) values ('" . $row1["H_ID"] . "','" . $row2["F_ID"] . "')");
                         $count_from++;
+						
+						print_r($fid_d);
+						print_r($hid_d);
                     }
                     $count++;
                 }
@@ -324,8 +327,8 @@ function Hapus()
                                                     ?>
                                                     <tr class="listoff" style="background-color:#FFF">
                                                         <td width="39%"
-                                                            valign="middle"><?php echo $objResult["H_ID"]; ?></td>
-                                                        <td width="61%"><?php echo $objResult["F_ID"]; ?></td>
+                                                            valign="middle"><?php echo $objResult["H_ID"]."</br>"; ?></td>
+                                                        <td width="61%"><?php echo $objResult["F_ID"]."</br>".$objResult["F_ID"]; ?></td>
 
                                                     </tr>
 
