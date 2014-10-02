@@ -146,10 +146,10 @@ function Simpan()
     if ($StaSave == "save") {
         if ($day == "D1") {
 
-            $count_from = 0;
+            $count_from = 0;//2
             $count_to = 2;
             while($row1 = odbc_fetch_array($rs2)) {
-                $count = 0;
+                $count = 0;//2
                 while($row2 = odbc_fetch_array($rs1)) {
                     if ($count < $count_to && $count >= $count_from) {
                         mydb("INSERT INTO FlightD1 (H_ID, F_ID) values ('" . $row1["H_ID"] . "','" . $row2["F_ID"] . "')");
@@ -157,10 +157,12 @@ function Simpan()
 						
 						//print_r($fidd);
 						//print_r($hidd);
+                    } else {
+
+                        $count_to = $count_to + 2;
                     }
                     $count++;
                 }
-                $count_to = $count_to + 2;
             }
             //$rs1 = mydb ("INSERT INTO FlightD1 (H_ID, F_ID) values (".$hole.",".$f.")");
 
