@@ -126,7 +126,7 @@ function Simpan()
     $hole = null;
 
     $rs1 = mydb("SELECT F_ID FROM Day_1 WHERE Kat_ID='" . $kat_id . "'");
-    odbc_fetch_into($rs1, $fidd);
+    //odbc_fetch_into($rs1, $fidd);
     //$fid_d = odbc_fetch_array($rs);
 //		if($objResult)
     //	{
@@ -134,25 +134,25 @@ function Simpan()
     //}
 
     $rs2 = mydb("SELECT H_ID FROM Hole WHERE Kat_ID='" . $kat_id . "'");
-    odbc_fetch_into($rs2, $hidd);
+    //odbc_fetch_into($rs2, $hidd);
     //$hid_d = odbc_fetch_array($rs);
     //	if($objResult)
     //	{
 //			$hole=$objResult["H_ID"];
     //	}
 
-    print_r($hidd);
+  //  print_r($hidd);
 
     if ($StaSave == "save") {
         if ($day == "D1") {
 
             $count_from = 0;
             $count_to = 2;
-            foreach($hidd as $row1) {
+            while($row1 = odbc_fetch_array($rs2)) {
                 $count = 0;
-                foreach($fidd as $row2) {
+                while($row2 = odbc_fetch_array($rs1)) {
                     if ($count < $count_to && $count >= $count_from) {
-                        mydb("INSERT INTO FlightD1 (H_ID, F_ID) values ('" . $row1 . "','" . $row2 . "')");
+                        mydb("INSERT INTO FlightD1 (H_ID, F_ID) values ('" . $row1["H_ID"] . "','" . $row2["F_ID"] . "')");
                         $count_from++;
 						
 						//print_r($fidd);
