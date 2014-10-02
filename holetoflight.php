@@ -125,15 +125,15 @@ function Simpan()
     $f = null;
     $hole = null;
 
-    $rs = mydb("SELECT F_ID FROM Day_1 WHERE Kat_ID='" . $kat_id . "'");
-    $fid_d = odbc_fetch_array($rs);
+    $rs1 = mydb("SELECT F_ID FROM Day_1 WHERE Kat_ID='" . $kat_id . "'");
+    //$fid_d = odbc_fetch_array($rs);
 //		if($objResult)
     //	{
     //	$f=$objResult["F_ID"];
     //}
 
-    $rs = mydb("SELECT H_ID FROM Hole WHERE Kat_ID='" . $kat_id . "'");
-    $hid_d = odbc_fetch_array($rs);
+    $rs2 = mydb("SELECT H_ID FROM Hole WHERE Kat_ID='" . $kat_id . "'");
+    //$hid_d = odbc_fetch_array($rs);
     //	if($objResult)
     //	{
 //			$hole=$objResult["H_ID"];
@@ -144,15 +144,15 @@ function Simpan()
 
             $count_from = 0;
             $count_to = 2;
-            foreach($hid_d as $row1) {
+            foreach(odbc_fetch_array($rs2) as $row1) {
                 $count = 0;
-                foreach($fid_d as $row2) {
+                foreach(odbc_fetch_array($rs1) as $row2) {
                     if ($count < $count_to && $count >= $count_from) {
                         mydb("INSERT INTO FlightD1 (H_ID, F_ID) values ('" . $row1["H_ID"] . "','" . $row2["F_ID"] . "')");
                         $count_from++;
 						
-						print_r($fid_d);
-						print_r($hid_d);
+						//print_r($fid_d);
+						//print_r($hid_d);
                     }
                     $count++;
                 }
