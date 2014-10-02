@@ -150,7 +150,7 @@ function Simpan()
                 $count = 0;
                 foreach($fidd as $row2) {
                     if ($count < $count_to && $count >= $count_from) {
-                        mydb("INSERT INTO FlightD1 (H_ID, F_ID) values ('" . $row1["H_ID"] . "','" . $row2["F_ID"] . "')");
+                        mydb("INSERT INTO FlightD1 (H_ID, F_ID) values ('" . $row1 . "','" . $row2 . "')");
                         $count_from++;
 						
 						//print_r($fid_d);
