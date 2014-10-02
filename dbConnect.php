@@ -4,7 +4,7 @@ function mydb($query)
 	$conn = odbc_connect('dbb','sa','1234'); 
 	if ($conn) 
 	{
-		echo $query;
+	//	echo $query;
 		$result=odbc_exec($conn, $query);
 	}
 	return $result;
