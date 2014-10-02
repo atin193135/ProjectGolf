@@ -155,8 +155,8 @@ function Simpan()
                         mydb("INSERT INTO FlightD1 (H_ID, F_ID) values ('" . $row1 . "','" . $row2 . "')");
                         $count_from++;
 						
-						//print_r($fid_d);
-						//print_r($hid_d);
+						//print_r($fidd);
+						//print_r($hidd);
                     }
                     $count++;
                 }
