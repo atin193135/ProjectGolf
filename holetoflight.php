@@ -126,22 +126,10 @@ function Simpan()
     $hole = null;
 
     $rs1 = mydb("SELECT F_ID FROM Day_1 WHERE Kat_ID='" . $kat_id . "'");
-    //odbc_fetch_into($rs1, $fidd);
-    //$fid_d = odbc_fetch_array($rs);
-//		if($objResult)
-    //	{
-    //	$f=$objResult["F_ID"];
-    //}
+	
+	$rs3 = mydb("SELECT F_ID FROM Day_2 WHERE Kat_ID='" . $kat_id . "'");
 
     $rs2 = mydb("SELECT H_ID FROM Hole WHERE Kat_ID='" . $kat_id . "'");
-    //odbc_fetch_into($rs2, $hidd);
-    //$hid_d = odbc_fetch_array($rs);
-    //	if($objResult)
-    //	{
-//			$hole=$objResult["H_ID"];
-    //	}
-
-  //  print_r($hidd);
 
     if ($StaSave == "save") {
         if ($day == "D1") {
@@ -152,17 +140,15 @@ function Simpan()
                 $datatest[] = $row2["F_ID"];
             }
 
-            $count_from = 0;//2
+            $count_from = 0;
             $count_to = 2;
             while($row1 = odbc_fetch_array($rs2)) {
-                $count = 0;//2
+                $count = 0;
                 foreach($datatest as $row3) {
                     if ($count < $count_to && $count >= $count_from) {
                         mydb("INSERT INTO FlightD1 (H_ID, F_ID) values ('" . $row1["H_ID"] . "','" . $row3 . "')");
                         $count_from++;
 						
-						//print_r($fidd);
-						//print_r($hidd);
                     } else {
 
 
@@ -172,22 +158,39 @@ function Simpan()
                 }
                 $count_to = $count_to + 2;
             }
-            //$rs1 = mydb ("INSERT INTO FlightD1 (H_ID, F_ID) values (".$hole.",".$f.")");
 
             $msginfo = "Proses Penentuan Flight Pemain telah dilaksanakan dan rekod telah disimpan ke dalam pangkalan data";
         }
 
         if ($day == "D2") {
 
-            $rs1 = mydb("INSERT INTO FlightD2 (a.F_ID, b.H_ID)
-									SELECT a.F_ID, b.H_ID
-									FROM Day_2 a
-									inner join Hole b on b.Kat_ID = a.Kat_ID
-									where a.Kat_ID = $kat_id");
+           
+            $datatest = array();
+            while($row4 = odbc_fetch_array($rs3)) {
 
+                $datatest[] = $row4["F_ID"];
+            }
+
+            $count_from = 0;
+            $count_to = 2;
+            while($row1 = odbc_fetch_array($rs2)) {
+                $count = 0;
+                foreach($datatest as $row3) {
+                    if ($count < $count_to && $count >= $count_from) {
+                        mydb("INSERT INTO FlightD2 (H_ID, F_ID) values ('" . $row1["H_ID"] . "','" . $row3 . "')");
+                        $count_from++;
+						
+                    } else {
+
+
+                    }
+                    $count++;
+
+                }
+                $count_to = $count_to + 2;
+            }
 
             $msginfo = "Proses Penentuan Flight Pemain telah dilaksanakan dan rekod telah disimpan ke dalam pangkalan data";
-
 
         }
     }
@@ -206,7 +209,6 @@ function Hapus()
         $msginfo = "Rekod telah dihapuskan dari pangkalan data";
 
         $StaDelete = "";
-        //$msginfo="";
         $kat_id = "";
         $jum_p = 0;
         $jum_f = 0;
@@ -308,10 +310,7 @@ function Hapus()
                                                onclick="NewRekod()"/>
                                         <input type="submit" class="button" name="btnsimpan" id="btnsimpan"
                                                value="Simpan" style="width:90px; text-align:center;"
-                                               onClick="return SimpanRekod();"/>
-                                        <input type="submit" class="button" name="btnhapus" id="btnhapus" value="Hapus"
-                                               style="width:90px; text-align:center;" onclick="return HapusRekod()"/>
-                                    </td>
+                                               onClick="return SimpanRekod();"/></td>
                                 </tr>
                             </table>
                             <table width="60%" id="TableB" border="0">
@@ -332,7 +331,7 @@ function Hapus()
 													where b.F_ID = a.F_ID
 													and b.Kat_ID = '$kat_id'");
                                                 elseif ($day == "D2")
-                                                    $rs = mydb("select a.H_ID, a.F_ID from FlightD1 as a,Day_1 as b
+                                                    $rs = mydb("select a.H_ID, a.F_ID from FlightD2 as a,Day_2 as b
 													where b.F_ID = a.F_ID
 													and b.Kat_ID = '$kat_id'");
 
@@ -341,8 +340,8 @@ function Hapus()
                                                     ?>
                                                     <tr class="listoff" style="background-color:#FFF">
                                                         <td width="39%"
-                                                            valign="middle"><?php echo $objResult["H_ID"]."</br>"; ?></td>
-                                                        <td width="61%"><?php echo $objResult["F_ID"]."</br>".$objResult["F_ID"]; ?></td>
+                                                            valign="middle"><?php echo $objResult["H_ID"]; ?></td>
+                                                        <td width="61%"><?php echo $objResult["F_ID"];?></td>
 
                                                     </tr>
 
