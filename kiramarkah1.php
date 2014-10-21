@@ -11,13 +11,40 @@
  <script src="/Golf2014100914/js/jquery-2.1.1.js"></script>
  
  	<script type="text/javascript">
-		function loadData(nama, fid, hole, indeks, par, mark) {
+		function loadData(nama, fid, hole, indeks, par, mark, hid) {
           $("#pe_nama").val(nama); 
 		  $("#fid").val(fid);
 		   $("#hole").val(hole); 
 		  $("#indeks").val(indeks);
 		   $("#par").val(par); 
-		  $("#mark").val(mark);
+	
+			<?php
+			$query = mydb("select * from dbo.Hole where refInc >= (select refInc from dbo.Hole where H_ID = 'hid') 
+and 
+refInc < (select refInc from dbo.Hole where H_ID = 'AK11') + 18
+;")
+			?>
+		   
+		   var table = $("<table width='630' border='0' cellpadding='1' cellspacing='1' id='TableC2' style='width: 80px ; font-size: 11px'></table>");
+
+			for (i = 0; i < 18; i++) { 
+			 var row = $("<tr width='502' class='listoff'></tr>");
+			
+			  row.append($("<td></td>").html(i+1));
+			  row.append($("<td></td>").html('<input name="hole" type="text" size="9" id="hole" readonly="readonly" value="'+hole+'"/>'));
+			  row.append($("<td></td>").html('<input name="indeks" type="text" size="9" id="indeks" readonly="readonly" value="'+indeks+'"/>'));
+			  row.append($("<td></td>").html('<input name="par" type="text" size="9" id="par" readonly="readonly" value="'+par+'"/>'));
+			  row.append($("<td></td>").html('<input name="mark" type="text" size="9" id="mark" value="" />'));
+			  row.append($("<td></td>").html('<input name="hcap" type="text" size="8.8" id="hcap" value=""  readonly="readonly" />'));
+			  row.append($("<td></td>").html('<input name="mshcap" type="text" size="8" id="mshcap" value=""  readonly="readonly"/>'));
+			  row.append($("<td></td>").html('<input name="point" type="text" size="5" id="point" value=""  readonly="readonly"/>'));
+			
+			  table.append(row);
+   
+			}
+			 
+			$("#testtt").html(table);
+
 		  }
 		  
 		function PaparInfo() 
@@ -37,26 +64,14 @@
 
 		function SimpanRekod()
 		{	
-			if ((document.frmFlight.cmbKat.value == "") || (document.frmFlight.cmbKat.value == "-"))
-			{
-				alert("Sila pilih 'Kategori Permainan'.");
-				document.frmFlight.cmbKat.focus();
-				return false;
-			}
 		
 			if ((document.frmFlight.cmbDay.value == "") || (document.frmFlight.cmbDay.value == "-"))
 			{
-				alert("Sila pilih 'Agihan Untuk'.");
+				alert("Sila pilih 'hari'.");
 				document.frmFlight.cmbDay.focus();
 				return false;
 			}
 			
-			if ((document.frmFlight.txtJumP.value == "") || (document.frmFlight.txtJumP.value == "0"))
-			{
-				alert("Tiada pemain yang berdaftar di bawah kategori ini");
-				document.frmFlight.txtJumP.focus();
-				return false;
-			}
 			
 			if (document.frmFlight.hidSave.value == "" )
 			{			
@@ -73,21 +88,16 @@
 </head>
 <?php
 	$StaSave="";
-	$StaDelete="";
 	$StaNew="";
 	$msginfo="";
 	$kat_id = "";
-	$jum_p =0;
-	$jum_f =0;
 	$day="";
 
 	if(isset($_POST['hidSave'])){ $StaSave = $_POST['hidSave']; };
-	if(isset($_POST['hidDelete'])){ $StaDelete = $_POST['hidDelete']; };
 	if(isset($_POST['hidNew'])){ $StaNew = $_POST['hidNew']; };
 	
 	if ($StaNew == "")
 	{
-		if(isset($_POST['cmbKat'])){ $kat_id = $_POST['cmbKat']; };
 		if(isset($_POST['cmbDay'])){ $day = $_POST['cmbDay']; };
 	}
 	
@@ -116,13 +126,6 @@
             <tr>
                 <td align="left" style="font-size:17px"><strong>Penentuan Pemain Kepada Flight</strong></strong></td>
               	<td width="12%" align="left" style="font-size:17px"><a href="menuUtiliti.php"><img src="image/Settings-icon.png" width="100" height="25" align="right" /></a></td>
-            </tr>
-            <tr>
-                <td colspan="2" >
-					<font color="#FF0000" style="font-size:10pt">Kenyataan :<br />
-					1. Ruangan bertanda (*) adalah ruangan wajib diisi
-					</font>
-				</td>
             </tr>
             <tr>
               <td colspan="2" >&nbsp;</td>
@@ -184,7 +187,7 @@
 					  <?php
                                     $i=0;
 									if ($day=="D1")
-                                    	$rs = mydb ("SELECT G.H_Hole as hole, G.H_Indeks as indeks, G.H_Par as par,
+                                    	$rs = mydb ("SELECT G.H_ID as hid, G.H_Hole as hole, G.H_Indeks as indeks, G.H_Par as par,
 													A.F_ID, A.P1, B.PE_Nama AS P1_Nama, B.Ipt_ID AS P1_IPT,B.PE_Handicap,
 													A.P2, C.PE_Nama AS P2_Nama, C.Ipt_ID AS P2_IPT, C.PE_Handicap,
 													A.P3, D.PE_Nama AS P3_Nama, D.Ipt_ID AS P3_IPT, D.PE_Handicap, 
@@ -198,7 +201,7 @@
 													INNER JOIN HOLE G ON F.H_ID = G.H_ID
   												    WHERE G.P_ID='" . $idpadang . "'");
 									elseif ($day=="D2")
-                                    	$rs = mydb ("SELECT G.H_Hole as hole, G.H_Indeks as indeks, G.H_Par as par,
+                                    	$rs = mydb ("SELECT G.H_ID as hid, G.H_Hole as hole, G.H_Indeks as indeks, G.H_Par as par,
 													A.F_ID, A.P1, B.PE_Nama AS P1_Nama, B.Ipt_ID AS P1_IPT,B.PE_Handicap,
 													A.P2, C.PE_Nama AS P2_Nama, C.Ipt_ID AS P2_IPT, C.PE_Handicap,
 													A.P3, D.PE_Nama AS P3_Nama, D.Ipt_ID AS P3_IPT, D.PE_Handicap, 
@@ -220,10 +223,10 @@
                                 ?>
                                             <tr class="listoff" style="background-color:#FFF">
                                                 <td width="10%" valign="middle"><?php echo $objResult["F_ID"];?></td>
-                                                <td width="22%" ondblclick="loadData('<?= $objResult["P1_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>')"><?php echo $objResult["P1"]."<br>".$objResult["P1_Nama"]."<br>(".$objResult["P1_IPT"].")";?></td>
-                                                <td width="22%" ondblclick="loadData('<?= $objResult["P2_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>')"><?php echo $objResult["P2"]."<br>".$objResult["P2_Nama"]."<br>(".$objResult["P2_IPT"].")";?></td>
-                                                <td width="22%" ondblclick="loadData('<?= $objResult["P3_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>')"><?php echo $objResult["P3"]."<br>".$objResult["P3_Nama"]."<br>(".$objResult["P3_IPT"].")";?></td>
-                                                <td width="22%" ondblclick="loadData('<?= $objResult["P4_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>')"><?php if ($objResult["P4"]!="") { echo $objResult["P4"]."<br>".$objResult["P4_Nama"]."<br>(".$objResult["P4_IPT"].")"; } else echo "";?></td>
+                                                <td width="22%" ondblclick="loadData('<?= $objResult["P1_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>', '<?= $objResult["hid"]?>')"><?php echo $objResult["P1"]."<br>".$objResult["P1_Nama"]."<br>(".$objResult["P1_IPT"].")";?></td>
+                                                <td width="22%" ondblclick="loadData('<?= $objResult["P2_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>', '<?= $objResult["hid"]?>')"><?php echo $objResult["P2"]."<br>".$objResult["P2_Nama"]."<br>(".$objResult["P2_IPT"].")";?></td>
+                                                <td width="22%" ondblclick="loadData('<?= $objResult["P3_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>', '<?= $objResult["hid"]?>')"><?php echo $objResult["P3"]."<br>".$objResult["P3_Nama"]."<br>(".$objResult["P3_IPT"].")";?></td>
+                                                <td width="22%" ondblclick="loadData('<?= $objResult["P4_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>', '<?= $objResult["hid"]?>')"><?php if ($objResult["P4"]!="") { echo $objResult["P4"]."<br>".$objResult["P4_Nama"]."<br>(".$objResult["P4_IPT"].")"; } else echo "";?></td>
                                             </tr>
                                 <?php
 										}
@@ -232,10 +235,10 @@
 								?>
                                             <tr class="listoff" style="background-color:#D5FF80">
                                                 <td width="10%" valign="middle"><?php echo $objResult["F_ID"];?></td>
-                                                <td width="22%" ondblclick="loadData('<?= $objResult["P1_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>', '<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>')" ><?php echo $objResult["P1"]."<br>".$objResult["P1_Nama"]."<br>(".$objResult["P1_IPT"].")";?></td>
-                                                <td width="22%" ondblclick="loadData('<?= $objResult["P2_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>')"><?php echo $objResult["P2"]."<br>".$objResult["P2_Nama"]."<br>(".$objResult["P2_IPT"].")";?></td>
-                                                <td width="22%" ondblclick="loadData('<?= $objResult["P3_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>')"><?php echo $objResult["P3"]."<br>".$objResult["P3_Nama"]."<br>(".$objResult["P3_IPT"].")";?></td>
-                                                <td width="22%" ondblclick="loadData('<?= $objResult["P4_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>')"><?php if ($objResult["P4"]!="") { echo $objResult["P4"]."<br>".$objResult["P4_Nama"]."<br>(".$objResult["P4_IPT"].")"; } else echo "";?></td>
+                                                <td width="22%" ondblclick="loadData('<?= $objResult["P1_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>', '<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>', '<?= $objResult["hid"]?>')" ><?php echo $objResult["P1"]."<br>".$objResult["P1_Nama"]."<br>(".$objResult["P1_IPT"].")";?></td>
+                                                <td width="22%" ondblclick="loadData('<?= $objResult["P2_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>', '<?= $objResult["hid"]?>')"><?php echo $objResult["P2"]."<br>".$objResult["P2_Nama"]."<br>(".$objResult["P2_IPT"].")";?></td>
+                                                <td width="22%" ondblclick="loadData('<?= $objResult["P3_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>', '<?= $objResult["hid"]?>')"><?php echo $objResult["P3"]."<br>".$objResult["P3_Nama"]."<br>(".$objResult["P3_IPT"].")";?></td>
+                                                <td width="22%" ondblclick="loadData('<?= $objResult["P4_Nama"]?>', '<?= $objResult["F_ID"]?>', '<?= $objResult["hole"]?>','<?= $objResult["indeks"]?>', '<?= $objResult["par"]?>', '<?= $objResult["hid"]?>')"><?php if ($objResult["P4"]!="") { echo $objResult["P4"]."<br>".$objResult["P4_Nama"]."<br>(".$objResult["P4_IPT"].")"; } else echo "";?></td>
                                             </tr>
 								<?php
 										}
@@ -244,25 +247,23 @@
                                     }
                                 ?>
 								</table>
-							</div>
-						</td>
+							</div>						</td>
 					</tr>
-				  </table>
-			  </td>
+				  </table>			  </td>
 			</tr>
 		</table>
         <br/>
         <table width="990" border="0">
           <tr>
-            <td width="55">Nama</td>
-            <td width="9">:</td>
-            <td width="200"><label>
-              <input type="text" name="pe_nama" id="pe_nama" readonly="readonly" maxlength="100" />
+            <td width="54">Nama</td>
+            <td width="8">:</td>
+            <td width="276"><label>
+              <input type="text" name="pe_nama" id="pe_nama" size="40" readonly="readonly" maxlength="100" />
             </label></td>
-            <td width="167">&nbsp;</td>
-            <td width="63">Flight ID</td>
+            <td width="89">&nbsp;</td>
+            <td width="62">Flight ID</td>
             <td width="6">:</td>
-            <td width="462"><input type="text" name="fid" id="fid" readonly="readonly"/></td>
+            <td width="465"><input type="text" name="fid" id="fid" readonly="readonly"/></td>
           </tr>
         </table>
        <center> <table width="986" border="0">
@@ -278,20 +279,24 @@
           </tr>
           <tr width="55%">
             <td height="542" colspan="8"><div class="listboxs" style="height:540px; width:800px ">
+            <!--
               <table width="630" border="0" cellpadding="1" cellspacing="1" id="TableC2" style="width: 80px ; font-size: 11px;">
       
-                <tr width="502" class="listoff" onmouseover="this.className='liston';" onmouseout="this.className='listoff';">
-                  <td width="17"><?php echo $i+1;?></td>
-                  <td width="79"><input name="hole" type="text" size="9" id="hole" readonly="readonly" /></td>
-                  <td width="65"><input name="indeks" type="text" size="9" id="indeks" readonly="readonly" /></td>
-                  <td width="39"><input name="par" type="text" size="9" id="par" readonly="readonly" /></td>
-                  <td width="63"><input name="mark" type="text" size="9" id="mark" value="" /></td>
-                  <td width="69"><input name="hcap" type="text" size="8.8" id="hcap" value=""  readonly="readonly" /></td>
-                  <td width="65"><input name="mshcap" type="text" size="8" id="mshcap" value=""  readonly="readonly"/></td>
-                  <td width="68"><input name="point" type="text" size="5" id="point" value=""  readonly="readonly"/></td>
+                <tr width="502" class="listoff">
+                  <td width="17"><?php// echo $i+1;?></td>
+                  <td width="80"><input name="hole" type="text" size="9" id="hole" readonly="readonly" /></td>
+                  <td width="99"><input name="indeks" type="text" size="9" id="indeks" readonly="readonly" /></td>
+                  <td width="149"><input name="par" type="text" size="9" id="par" readonly="readonly" /></td>
+                  <td width="150"><input name="mark" type="text" size="9" id="mark" value="" /></td>
+                  <td width="150"><input name="hcap" type="text" size="8.8" id="hcap" value=""  readonly="readonly" /></td>
+                  <td width="152"><input name="mshcap" type="text" size="8" id="mshcap" value=""  readonly="readonly"/></td>
+                  <td width="118"><input name="point" type="text" size="5" id="point" value=""  readonly="readonly"/></td>
                 </tr>
          
               </table>
+              -->
+              <div id="testtt">
+              </div>
               <p>&nbsp;</p>
             </div></td>
           </tr>
