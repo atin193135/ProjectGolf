@@ -1,8 +1,7 @@
 <?php
 include 'dbConnect.php';
 
-$query = mydb("select * from dbo.Hole where refInc >= (select refInc from dbo.Hole where H_ID = 'AK11') 
-and refInc < (select refInc from dbo.Hole where H_ID = 'AK11') + 18 ;");
+$query = mydb("select H_ID, H_Par, H_Indeks from dbo.Hole ;");
 
 $data = array();
 $objResult = odbc_fetch_array($query);  
