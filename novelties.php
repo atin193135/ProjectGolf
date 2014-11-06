@@ -8,8 +8,15 @@ include 'dbConnect.php';
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Kejohanan Golf Antara IPTA 2014</title>
     <link rel="stylesheet" href="golf750.css" type="text/css">
+        <script src="/ProjectGolf/js/jquery-2.1.1.js"></script>
+
     <script type="text/javascript">
 
+		$(document).ready(function () {
+            if (document.frmnovelties.penanda.value != "insert") {
+                document.frmnovelties.penanda.value == "insert";
+            }
+        });
         function PaparInfo(InfoInd, id, kategori) {
 
             if (kategori === 'LD') {
@@ -39,7 +46,7 @@ include 'dbConnect.php';
                 document.frmnovelties.NTP_jarak.value = document.getElementById(id).rows[InfoInd].cells[2].innerHTML;
                 document.frmnovelties.NTP_unit.value = document.getElementById(id).rows[InfoInd].cells[3].innerHTML;
                 document.frmnovelties.NTP_fid.value = document.getElementById(id).rows[InfoInd].cells[4].innerHTML;
-                document.frmnovelties.hidSave.value = "update";
+                //document.frmnovelties.hidSave.value = "update";
 
                 document.frmnovelties.LD_kategori.value = "";
                 document.frmnovelties.LD_nama.value = "";
@@ -60,7 +67,7 @@ include 'dbConnect.php';
                 document.frmnovelties.NTL_jarak.value = document.getElementById(id).rows[InfoInd].cells[2].innerHTML;
                 document.frmnovelties.NTL_unit.value = document.getElementById(id).rows[InfoInd].cells[3].innerHTML;
                 document.frmnovelties.NTL_fid.value = document.getElementById(id).rows[InfoInd].cells[4].innerHTML;
-                document.frmnovelties.hidSave.value = "update";
+               // document.frmnovelties.hidSave.value = "update";
 
                 document.frmnovelties.LD_kategori.value = "";
                 document.frmnovelties.LD_nama.value = "";
@@ -76,7 +83,7 @@ include 'dbConnect.php';
             }
 
             //tuka value flag kalau dia click table bawah 2x
-            document.frmnovelties.penanda.value = "update";
+             document.frmnovelties.hidSave.value = "update";
 
         }
 
@@ -84,28 +91,32 @@ include 'dbConnect.php';
             if (document.frmnovelties.cmbPadang.value == "PILIH") {
                 alert("Sila pastikan ruangan 'Tempat Pertandingan' tidak dibiarkan kosong.");
                 document.frmnovelties.cmbPadang.focus();
-                return false;
+                //return false;
             }
 
             if (document.frmnovelties.cmbDay.value == "Sila Pilih") {
                 alert("Sila pastikan ruangan 'Hari' tidak dibiarkan kosong.");
                 document.frmnovelties.cmbDay.focus();
-                return false;
+                //return false;
             }
 //kat sini yg pggil hidSave tu
 
             // xleh buat cmni.....perlu ade flag jgk...
-            if (document.frmnovelties.penanda.value == "insert") {
+            if (document.frmnovelties.hidSave.value == "") {
+			
                 document.frmnovelties.hidSave.value = "save";
-                document.frmnovelties.submit();
-                return true;
+               // document.frmnovelties.submit();
+                //return true;
             }
-            else if  (document.frmnovelties.penanda.value == "update") {
+            else if  (document.frmnovelties.hidSave.value == "update") {
+			
                 document.frmnovelties.hidSave.value = "update";
-                document.frmnovelties.submit();
-                return true;
+              //  document.frmnovelties.submit();
+                //return true;
             }
-            return true;
+			
+                document.frmnovelties.submit();
+            //return true;
         }
 
         //prevent usage of back button in browser
@@ -375,7 +386,7 @@ function Simpan()
                                         <input name="hidpadang" type="hidden" id="hidpadang" value=""/>
                                         <input name="hidpadang2" type="hidden" id="hidpadang2" value=""/>
                                         <input type="submit" class="button" name="btnsave" id="btnsave" value="Simpan"
-                                               style="width:90px; text-align:center;" onClick="return Simpan();"/>
+                                               style="width:90px; text-align:center;" onClick="SimpanRekod();"/>
 
 
                                         <input type="hidden" name="penanda" value="insert"/>

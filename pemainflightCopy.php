@@ -11,63 +11,22 @@ include 'dbConnect.php';
 <link href="golf750.css" rel="stylesheet" type="text/css" />    
 <script src="/Golf2014100914/js/jquery-2.1.1.js"></script>
 	<script>
-	
-		function loadData(nama1, ipt1, kat1, nama2, ipt2, kat2, teebox1, teebox2, fid1, fid2, hole1, hole2) { 
-		$("#nama1").val(nama1); 
-		$("#ipt1").val(ipt1);
-		$("#kat1").val(kat1);
-		$("#nama2").val(nama2); 
-		$("#ipt2").val(ipt2);
-		$("#kat2").val(kat2);
-		$("#teebox1").val(teebox1); 
-		$("#teebox2").val(teebox2);
-		$("#fid1").val(fid1);
-		$("#fid2").val(fid2);
-		$("#hole1").val(hole1);
-		$("#hole2").val(hole2);
 		
-		var data = {
-		"f1": fid1
-		"f2": fid2
-		};
-		data = $(this).serialize() + "&" + $.param(data);
-		
-		$.ajax({
-		type: "GET",
-		dataType: "json",
-		url: "jsn.php", 
-		data: data,
-		  success: function(data) {
-	    var table = $("<table width='100%' border='0' cellpadding='1' cellspacing='1' id='TableC2' style='width: 100% ; font-size: 11px'></table>");
-	  for (i = 0; i < 5; i++) { 
-	  //document.write(data[i][0]["H_ID"]);
-	  
-	   var row = $("<tr width='502' class='listoff'></tr>");
-			
-			  row.append($("<td></td>").html(i+1));
-			  row.append($("<td></td>").html('<input type="text" name="nama1" id="nama1" size="10" style="width:120px;" value="'+data[i][0]["H_ID"]+'"/>'));
-			  row.append($("<td></td>").html(' <input type="text" name="ipt1" id="ipt1" size="10" style="width:120px;" />'));
-			  row.append($("<td></td>").html('<input type="text" name="kat1" id="kat1" size="10" style="width:120px;" />'));
-			  row.append($("<td></td>").html('<input type="text" name="teebox1" id="teebox1" size="10" style="width:120px;" />'));
-			  row.append($("<td></td>").html('<input type="text" name="fid1" id="fid1" size="10" style="width:120px;" />'));
-			  row.append($("<td></td>").html('<input type="text" name="hole1" id="hole1" size="10" style="width:120px;" />'));
-			//
-//			  row.append($("<td></td>").html('<input type="text" name="nama2" id="nama2" size="10" style="width:120px;" />'));
-//			  row.append($("<td></td>").html('<input type="text" name="ipt2" id="ipt2" size="10" style="width:120px;" />'));
-//			  row.append($("<td></td>").html('<input type="text" name="kat2" id="kat2" size="10" style="width:120px;" />'));
-//			  row.append($("<td></td>").html('<input type="text" name="teebox2" id="teebox2" size="10" style="width:120px;" />'));
-//			  row.append($("<td></td>").html('<input type="text" name="fid2" id="fid2" size="10" style="width:120px;" />'));
-//			  row.append($("<td></td>").html('<input type="text" name="hole2" id="hole2" size="10" style="width:120px;" />'));
-//			
-			  table.append(row);
-	  
-		$("#testtt").html(table);
-		
-		}
-		});
-		}
-		
-		
+        function PaparInfo(InfoInd, id) 
+		{
+			document.tunjukfrm.txtnama1.value = document.getElementById(id).rows[InfoInd].cells[0].innerHTML;			
+			document.tunjukfrm.ipt1.value = document.getElementById(id).rows[InfoInd].cells[1].innerHTML;
+			document.tunjukfrm.kategori1.value = document.getElementById(id).rows[InfoInd].cells[2].innerHTML;
+			document.tunjukfrm.txtnama2.value = document.getElementById(id).rows[InfoInd].cells[3].innerHTML;			
+			document.tunjukfrm.ipt2.value = document.getElementById(id).rows[InfoInd].cells[4].innerHTML;
+			document.tunjukfrm.kategori2.value = document.getElementById(id).rows[InfoInd].cells[5].innerHTML;
+			document.tunjukfrm.teebox1.value = document.getElementById(id).rows[InfoInd].cells[6].innerHTML;
+			document.tunjukfrm.teebox2.value = document.getElementById(id).rows[InfoInd].cells[7].innerHTML;
+			document.tunjukfrm.fid1.value = document.getElementById(id).rows[InfoInd].cells[8].innerHTML;	
+			document.tunjukfrm.fid2.value = document.getElementById(id).rows[InfoInd].cells[9].innerHTML;	
+			document.tunjukfrm.hole1.value = document.getElementById(id).rows[InfoInd].cells[10].innerHTML;	
+			document.tunjukfrm.hole2.value = document.getElementById(id).rows[InfoInd].cells[11].innerHTML;
+		}	
                 
 		function jscari()
 		{		
@@ -134,7 +93,7 @@ function myFunction() {
 ?>	
 
   <body class="oneColLiqCtrHdr" style="background-image: url(image/bg2.jpg);">
-	<form name="tunjukfrm" id="tunjukfrm" action ="pemainFlight.php" method="post">
+	<form name="tunjukfrm" id="tunjukfrm" action ="pemainflightCopy.php" method="post">
   <table width="950" id="Outer" align="center" style="border: 3px solid #888; background-color:#FFF">
     <tr>
       <td width="938">
@@ -219,7 +178,7 @@ function myFunction() {
                                     {
 									
                                 ?>
-                                    <tr id="myRow" class="listoff" onMouseOver="this.className='liston';" onMouseOut="this.className='listoff';" ondblclick="loadData('<?= $objResult["nama"]?>', '<?= $objResult["Ipt_ID"]?>', '<?= $objResult["Kat_Nama"]?>','<?= $objResult["nama"]?>', '<?= $objResult["Ipt_ID"]?>', '<?= $objResult["Kat_Nama"]?>','<?= $objResult["desc1"], $objResult["indeks1"];?>', '<?= $objResult["desc2"], $objResult["indeks2"];?>', '<?= $objResult["f1"]?>', '<?= $objResult["f2"]?>', '<?= $objResult["hole1"]?>', '<?= $objResult["hole2"]?>')">
+                                    <tr id="myRow" class="listoff" onMouseOver="this.className='liston';" onMouseOut="this.className='listoff';" ondblclick="PaparInfo(<?php echo $bil;?>,'TableC')">
                                         <td width="35%"><?php echo $objResult["nama"];?></td>
                                         <td width="10%"><?php echo $objResult["Ipt_ID"];?></td>
                                         <td width="10%"><?php echo $objResult["Kat_Nama"];?></td>
@@ -261,25 +220,31 @@ function myFunction() {
               </tr>
               <tr>
               	<td height="102" colspan="12" >
-              <div id="testtt"></div>
+                <div class="listbox" style="height:100px">
                 <table id="TableC" border="0" cellspacing="1" cellpadding="1" style="width: 100%; font-size: 11px;">
 					 <tr class="listoff" onmouseover="this.className='liston';" onmouseout="this.className='listoff';" >
                    <td width="19%">
+                            <input type="text" name="txtnama1" id="txtnama1" size="10" style="width:120px;" />
                         </td>
 						<td width="16%">
+                            <input type="text" name="ipt1" id="ipt1" size="10" style="width:120px;" />
                         </td>
 						<td width="13%">
+                            <input type="text" name="kategori1" id="kategori1" size="10" style="width:120px;" />
                         </td>
 						<td width="16%">
+                            <input type="text" name="teebox1" id="teebox1" size="10" style="width:120px;" />
                         </td>
 						<td width="16%">
+                            <input type="text" name="fid1" id="fid1" size="10" style="width:120px;" />
                         </td>
                         <td width="20%">
+                            <input type="text" name="hole1" id="hole1" size="10" style="width:120px;" />
                         </td>
                 </tr>
 				 
             </table>
-           
+            </div>
             </td>
 		</tr>
     	</table>
@@ -304,16 +269,22 @@ function myFunction() {
                
                 <tr class="listoff" onmouseover="this.className='liston';" onmouseout="this.className='listoff';" >
                    <td width="19%">
+                            <input type="text" name="txtnama2" id="txtnama2" size="10" style="width:120px;" />
                         </td>
 						<td width="16%">
+                            <input type="text" name="ipt2" id="ipt2" size="10" style="width:120px;" />
                         </td>
 						<td width="13%">
+                            <input type="text" name="kategori2" id="kategori2" size="10" style="width:120px;" />
                         </td>
 						<td width="16%">
+                            <input type="text" name="teebox2" id="teebox2" size="10" style="width:120px;" />
                         </td>
 						<td width="16%">
+                            <input type="text" name="fid2" id="fid2" size="10" style="width:120px;" />
                         </td>
                         <td width="20%">
+                            <input type="text" name="hole2" id="hole2" size="10" style="width:120px;" />
                         </td>
                 </tr>
               </table>
